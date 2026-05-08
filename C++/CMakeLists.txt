@@ -47,6 +47,13 @@ add_executable(ensivideo src/ensivideo.cc src/ensitheora.cc src/ensivorbis.cc sr
 
 target_link_libraries(ensivideo pthread ${ALLSTRIP_PKG_LDFLAGS})
 
+##
+# Mini-exercice 1 : Hello World multi-thread
+##
+add_executable(hello10 hello10.cpp)
+target_link_libraries(hello10 pthread)
+target_compile_options(hello10 PRIVATE -Wall -Wextra)
+
 
 ##
 # Construction de l'archive

@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <assert.h>
+#include <pthread.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -20,20 +21,24 @@ int main(int argc, char *argv[static argc+1]) {
   atexit(SDL_Quit);
   assert(res == 0);
 
-  // Your code HERE
-  // start the two stream readers (theoraStreamReader and vorbisStreamReader)
-  // each in a thread
-  
-  // wait for vorbis thread
+  pthread_t theora_thread, vorbis_thread;
 
-  // 1 seconde of sound in advance, thus wait 1 seconde
-  // before leaving
+  res = pthread_create(&theora_thread, NULL, theoraStreamReader, argv[1]);
+  assert(res == 0);
+  res = pthread_create(&vorbis_thread, NULL, vorbisStreamReader, argv[1]);
+  assert(res == 0);
+
+  // Attendre la fin du thread vorbis
+  pthread_join(vorbis_thread, NULL);
+
+  // 1 seconde de son en avance : on laisse le temps à l'audio de se vider
   sleep(1);
 
-  // Wait for theora and theora2sdl threads
-
-  // TODO
-  /* liberer des choses ? */
+  // Annuler les threads vidéo puis attendre leur fin
+  pthread_cancel(theora_thread);
+  pthread_cancel(theora2sdlthread);
+  pthread_join(theora_thread, NULL);
+  pthread_join(theora2sdlthread, NULL);
 
   exit(EXIT_SUCCESS);
 }

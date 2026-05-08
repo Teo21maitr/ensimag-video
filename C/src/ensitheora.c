@@ -52,12 +52,9 @@ void *draw2SDL(void *arg) {
 
   signalerFenetreEtTexturePrete();
 
-  // ADD Your code HERE
-  /* Protéger l'accès à la hashmap */
-
+  pthread_mutex_lock(&hashmap_mutex);
   HASH_FIND_INT(theorastrstate, &serial, s);
-
-  // END of your modification HERE
+  pthread_mutex_unlock(&hashmap_mutex);
 
   assert(s->strtype == TYPE_THEORA);
 

@@ -53,6 +53,13 @@ add_executable(ensivideo src/ensivideo.c src/ensitheora.c src/ensivorbis.c src/o
 target_link_libraries(ensivideo pthread ${ALLSTRIP_PKG_LDFLAGS})
 
 ##
+# Mini-exercice 1 : Hello World multi-thread
+##
+add_executable(hello10 hello10.c)
+target_link_libraries(hello10 pthread)
+target_compile_options(hello10 PRIVATE -Wall -Wextra)
+
+##
 # Test utilisant Coccinelle
 ##
 add_test(CommonPthreadError perl ${CMAKE_SOURCE_DIR}/tests/pthcocci.pl)
