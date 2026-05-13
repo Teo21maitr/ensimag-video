@@ -1,5 +1,5 @@
 #include <condition_variable>
-#include <iostream>
+#include <cstdio>
 #include <memory>
 #include <mutex>
 #include <thread>
@@ -29,13 +29,13 @@ static void barriereAttendre(Barriere &b) {
 }
 
 static void hello(Barriere *b) {
-    std::cout << "Hello World!\n";
+    printf("Hello World!\n");
     barriereArrivee(*b);
 }
 
 static void done(Barriere *b) {
     barriereAttendre(*b);
-    std::cout << "Done!\n";
+    printf("Done!\n");
 }
 
 int main() {
