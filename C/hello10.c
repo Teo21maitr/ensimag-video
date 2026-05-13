@@ -39,9 +39,13 @@ static void barriereAttendre(barriere_t *b) {
     pthread_mutex_unlock(&b->mutex);
 }
 
+static pthread_mutex_t print_mutex = PTHREAD_MUTEX_INITIALIZER;
+
 static void *hello(void *arg) {
     barriere_t *b = (barriere_t *)arg;
+    pthread_mutex_lock(&print_mutex);
     printf("Hello World!\n");
+    pthread_mutex_unlock(&print_mutex);
     barriereArrivee(b);
     return NULL;
 }
@@ -49,7 +53,9 @@ static void *hello(void *arg) {
 static void *done(void *arg) {
     barriere_t *b = (barriere_t *)arg;
     barriereAttendre(b);
+    pthread_mutex_lock(&print_mutex);
     printf("Done!\n");
+    pthread_mutex_unlock(&print_mutex);
     return NULL;
 }
 
