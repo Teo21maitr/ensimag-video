@@ -4,6 +4,8 @@
 
 pthread_mutex_t hashmap_mutex = PTHREAD_MUTEX_INITIALIZER;
 
+pthread_mutex_t print_mutex = PTHREAD_MUTEX_INITIALIZER;
+
 static pthread_mutex_t taille_mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t  taille_cond  = PTHREAD_COND_INITIALIZER;
 static bool            taille_recue = false;

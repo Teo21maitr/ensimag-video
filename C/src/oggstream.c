@@ -47,7 +47,9 @@ void *theoraStreamReader(void *arg) {
     switch (respac) {
     case -1:
       s->nbpacketoutsync++;
+      pthread_mutex_lock(&print_mutex);
       printf("out of sync: gap in data\n");
+      pthread_mutex_unlock(&print_mutex);
       break;
     case 0:
       // more pages (data) are needed to build a full packet
@@ -87,7 +89,9 @@ void *vorbisStreamReader(void *arg) {
     // vérifier si le fichier ne serait pas fini
     if (feof(vf)) {
       fini = true;
+      pthread_mutex_lock(&print_mutex);
       printf("FIN de la lecture de VORBIS !");
+      pthread_mutex_unlock(&print_mutex);
       break;
     }
 
@@ -109,7 +113,9 @@ void *vorbisStreamReader(void *arg) {
     switch (respac) {
     case -1:
       s->nbpacketoutsync++;
+      pthread_mutex_lock(&print_mutex);
       printf("out of sync: gap in data\n");
+      pthread_mutex_unlock(&print_mutex);
       break;
     case 0:
       // more pages (data) are needed to build a full packet

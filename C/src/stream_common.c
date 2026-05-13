@@ -31,7 +31,9 @@ void pageReader(FILE *vf, ogg_sync_state *pstate, ogg_page *ppage) {
     assert(buffer);
     int bytes = fread(buffer, 1, 4096, vf);
     if (bytes == 0 && feof(vf)) {
+      pthread_mutex_lock(&print_mutex);
       printf("fin du fichier\n");
+      pthread_mutex_unlock(&print_mutex);
       fini = true;
       exit(EXIT_FAILURE); // ou juste return ?
     }
