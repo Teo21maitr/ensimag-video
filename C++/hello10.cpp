@@ -28,13 +28,19 @@ static void barriereAttendre(Barriere &b) {
     b.cond.wait(lock, [&b] { return b.count >= NB_HELLO; });
 }
 
+static std::mutex print_mutex;
+
 static void hello(Barriere *b) {
-    printf("Hello World!\n");
+    {
+        std::lock_guard<std::mutex> lock(print_mutex);
+        printf("Hello World!\n");
+    }
     barriereArrivee(*b);
 }
 
 static void done(Barriere *b) {
     barriereAttendre(*b);
+    std::lock_guard<std::mutex> lock(print_mutex);
     printf("Done!\n");
 }
 
